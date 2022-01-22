@@ -3,10 +3,12 @@ package br.com.alura.leilao.ui.recyclerview.adapter;
 import android.content.Context;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +18,9 @@ import br.com.alura.leilao.model.Leilao;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.doNothing;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ListaLeilaoAdapterTest {
     //inicializando objetos com anotação Mockito
     @Mock
@@ -27,9 +31,8 @@ public class ListaLeilaoAdapterTest {
 
     @Test
     public void deve_atualizarListaDeLeiloes_quandoReceberAListaDoMesmo(){
-        MockitoAnnotations.initMocks(this);
         // nao faça nada quando adapter chamar o metodo notifyDataSetChanged()
-        Mockito.doNothing().when(adapter).atualizaNotifyDataSetChanged();
+        doNothing().when(adapter).atualizaNotifyDataSetChanged();
 
         adapter.atualiza(new ArrayList<>(Arrays.asList(
                 new Leilao("Koenigsegg"),
