@@ -588,6 +588,9 @@ public class ListaLeilaoAdapterTest {
 
         int quantidadeLeiloesDevolvidas = adapter.getItemCount();
 
+        // verifica se o metodo foi chamado
+        Mockito.verify(adapter).atualizaNotifyDataSetChanged();
+
         assertThat(quantidadeLeiloesDevolvidas, is(3));
     }
 
