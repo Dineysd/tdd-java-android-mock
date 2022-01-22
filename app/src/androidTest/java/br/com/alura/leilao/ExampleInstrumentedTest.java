@@ -7,6 +7,13 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import br.com.alura.leilao.model.Leilao;
+import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -20,6 +27,17 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
+
+        ListaLeilaoAdapter adapter = new ListaLeilaoAdapter(appContext);
+
+        adapter.atualiza(new ArrayList<>(Arrays.asList(
+                new Leilao("Koenigsegg"),
+                new Leilao("Bugatti Veyron Vivere"),
+                new Leilao("Land Rover"))));
+
+        int quantidadeLeiloesDevolvidas = adapter.getItemCount();
+
+        assertThat(quantidadeLeiloesDevolvidas, is(3));
 
         assertEquals("br.com.alura.leilao", appContext.getPackageName());
     }
