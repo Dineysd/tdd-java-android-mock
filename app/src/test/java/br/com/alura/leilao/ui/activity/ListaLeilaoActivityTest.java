@@ -24,6 +24,9 @@ import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ListaLeilaoActivityTest {
@@ -37,8 +40,8 @@ public class ListaLeilaoActivityTest {
     @Test
     public void deve_atualizarListaDeLeiloes_quandoBusacarLisatdaApi() {
         ListaLeilaoActivity activity = new ListaLeilaoActivity();
-        Mockito.doNothing().when(adapter).atualizaNotifyDataSetChanged();
-        Mockito.doAnswer(new Answer() {
+        doNothing().when(adapter).atualizaNotifyDataSetChanged();
+        doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation)  {
                 RespostaListener<List<Leilao>> argument = invocation.getArgument(0);
@@ -48,12 +51,15 @@ public class ListaLeilaoActivityTest {
                         new Leilao("Land Rover"))));
                 return argument;
             }
-        }).when(client).todos(ArgumentMatchers.any(RespostaListener.class));
+        }).when(client).todos(any(RespostaListener.class));
 
         activity.buscaLeiloes(adapter, client);
-        int itemCount = adapter.getItemCount();
 
-        assertThat(itemCount, is(3));
+        Mockito.verify(client).todos(any(RespostaListener.class));
+        Mockito.verify(adapter).atualiza(Arrays.asList(
+                new Leilao("Koenigsegg"),
+                new Leilao("Bugatti Veyron Vivere"),
+                new Leilao("Land Rover")));
 
     }
 
