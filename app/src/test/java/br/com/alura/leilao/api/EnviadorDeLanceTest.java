@@ -1,11 +1,8 @@
 package br.com.alura.leilao.api;
 
-import android.content.Context;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import br.com.alura.leilao.api.EnviadorDeLance.LanceProcessadoListener;
@@ -26,8 +23,6 @@ import static org.mockito.Mockito.verify;
 public class EnviadorDeLanceTest {
 
     @Mock
-    private Context ctx;
-    @Mock
     private LanceProcessadoListener listener;
     @Mock
     private LeilaoWebClient client;
@@ -38,7 +33,7 @@ public class EnviadorDeLanceTest {
 
     @Test
     public void deve_MostrarMensagemDeFalha_quandoLanceForMenorQueOUltimo(){
-        EnviadorDeLance enviador = new EnviadorDeLance(client, listener, ctx, aviso);
+        EnviadorDeLance enviador = new EnviadorDeLance(client, listener, aviso);
 
         doThrow(LanceMenorQueUltimoLanceException.class)
                 .when(bugati).propoe(any(Lance.class));
@@ -51,7 +46,7 @@ public class EnviadorDeLanceTest {
 
     @Test
     public void deve_MostrarMensagemDeFalha_quandoUsuarioDerMaisDeCincolances(){
-        EnviadorDeLance enviador = new EnviadorDeLance(client, listener, ctx, aviso);
+        EnviadorDeLance enviador = new EnviadorDeLance(client, listener, aviso);
         //esse trecho simula a instanciação dos 5 lances ja adicionado do usuario
 
         doThrow(UsuarioJaDeuCincoLancesException.class)
@@ -65,7 +60,7 @@ public class EnviadorDeLanceTest {
 
     @Test
     public void deve_MostrarMensagemDeFalha_quandoUsuarioDerDoislanceSeguidos(){
-        EnviadorDeLance enviador = new EnviadorDeLance(client, listener, ctx, aviso);
+        EnviadorDeLance enviador = new EnviadorDeLance(client, listener, aviso);
 
         doThrow(LanceSeguidoDoMesmoUsuarioException.class)
                 .when(bugati).propoe(any(Lance.class));

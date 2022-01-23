@@ -92,8 +92,7 @@ public class LancesLeilaoActivity extends AppCompatActivity {
     private void enviaLance(Lance lance) {
         EnviadorDeLance enviador = new EnviadorDeLance(
                 client,
-                lanceProcessadoListener(),
-                this, new AvisoDialogManager());
+                lanceProcessadoListener(), new AvisoDialogManager(this));
         enviador.envia(leilaoRecebido, lance);
     }
 
