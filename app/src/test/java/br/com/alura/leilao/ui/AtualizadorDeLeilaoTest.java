@@ -33,7 +33,7 @@ public class AtualizadorDeLeilaoTest {
     private AtualizadorDeLeilao.IerroCarregaLeiloesListener listener;
 
     @Test
-    public void deve_atualizarListaDeLeiloes_quandoBusacarLisatdaApi() {
+    public void deve_atualizarListaDeLeiloes_quandoBuscarListadaApi() {
         AtualizadorDeLeilao activity = new AtualizadorDeLeilao(listener);
         final List<Leilao> leilaos = Arrays.asList(
                 new Leilao("Koenigsegg"),
