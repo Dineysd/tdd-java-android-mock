@@ -1,5 +1,6 @@
 package br.com.alura.leilao.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import br.com.alura.leilao.api.retrofit.client.LeilaoWebClient;
 import br.com.alura.leilao.api.retrofit.client.RespostaListener;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.ui.AtualizadorDeLeilao;
+import br.com.alura.leilao.ui.AtualizadorDeLeilao.IerroCarregaLeiloesListener;
 import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 
 import static br.com.alura.leilao.ui.activity.LeilaoConstantes.CHAVE_LEILAO;
@@ -66,7 +68,20 @@ public class ListaLeilaoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new AtualizadorDeLeilao(this).buscaLeiloes(adapter, client);
+        new AtualizadorDeLeilao(new IerroCarregaLeiloesListener() {
+            @Override
+            public void erroAoCarregar(String erro) {
+                mostraMensagemdeFalha(erro);
+
+            }
+        }).buscaLeiloes(adapter, client);
+    }
+
+    private void mostraMensagemdeFalha(String error) {
+        Toast.makeText(this,
+                error,
+                Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

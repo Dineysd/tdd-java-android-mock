@@ -23,21 +23,21 @@ import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AtualizadorDeLeilaoTest {
-    @Mock
-    private Context contextMock;
+
     @Mock
     private ListaLeilaoAdapter adapter ;
     @Mock
     private LeilaoWebClient client;
+    @Mock
+    private AtualizadorDeLeilao.IerroCarregaLeiloesListener listener;
 
     @Test
     public void deve_atualizarListaDeLeiloes_quandoBusacarLisatdaApi() {
-        AtualizadorDeLeilao activity = new AtualizadorDeLeilao(contextMock);
+        AtualizadorDeLeilao activity = new AtualizadorDeLeilao(listener);
         final List<Leilao> leilaos = Arrays.asList(
                 new Leilao("Koenigsegg"),
                 new Leilao("Bugatti Veyron Vivere"),
@@ -60,10 +60,7 @@ public class AtualizadorDeLeilaoTest {
     }
     @Test
     public void deve_apresentarMensagemFalha_quandoFalharABuscaDeleiloes(){
-        AtualizadorDeLeilao activity =  Mockito.spy(new AtualizadorDeLeilao(contextMock));
-        doNothing().when(activity).mostraMensagemdeFalha(contextMock);
-
-
+        AtualizadorDeLeilao atualizador =  Mockito.spy(new AtualizadorDeLeilao(listener));
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation)  {
@@ -74,9 +71,9 @@ public class AtualizadorDeLeilaoTest {
             }
         }).when(client).todos(any(RespostaListener.class));
 
-        activity.buscaLeiloes(adapter,client);
+        atualizador.buscaLeiloes(adapter,client);
 
         //verify(client).todos(any(RespostaListener.class));
-        verify(activity).mostraMensagemdeFalha(contextMock);
+        verify(listener).erroAoCarregar(anyString());
     }
 }

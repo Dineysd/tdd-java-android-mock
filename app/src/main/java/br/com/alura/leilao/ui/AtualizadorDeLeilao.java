@@ -10,13 +10,13 @@ import br.com.alura.leilao.api.retrofit.client.RespostaListener;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 
-public class AtualizadorDeLeilao {
+public class AtualizadorDeLeilao  {
 
-    private static final String MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES = "Não foi possível carregar os leilões";
-    private Context context;
+    public static final String MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES = "Não foi possível carregar os leilões";
+    private IerroCarregaLeiloesListener erroListener;
 
-    public AtualizadorDeLeilao(Context context) {
-        this.context = context;
+    public AtualizadorDeLeilao(IerroCarregaLeiloesListener erroListener) {
+        this.erroListener = erroListener;
     }
 
     public void buscaLeiloes(final ListaLeilaoAdapter listAdapter, LeilaoWebClient client) {
@@ -28,10 +28,12 @@ public class AtualizadorDeLeilao {
 
             @Override
             public void falha(String mensagem) {
-                Toast.makeText(context,
-                            MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES,
-                        Toast.LENGTH_SHORT).show();
+                erroListener.erroAoCarregar(MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES);
             }
         });
+    }
+
+    public interface IerroCarregaLeiloesListener{
+        void erroAoCarregar(String erro);
     }
 }
