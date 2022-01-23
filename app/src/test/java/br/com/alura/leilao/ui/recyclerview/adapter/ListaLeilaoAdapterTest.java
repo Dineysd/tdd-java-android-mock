@@ -19,6 +19,7 @@ import br.com.alura.leilao.model.Leilao;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ListaLeilaoAdapterTest {
@@ -42,7 +43,7 @@ public class ListaLeilaoAdapterTest {
         int quantidadeLeiloesDevolvidas = adapter.getItemCount();
 
         // verifica se o metodo foi chamado
-        Mockito.verify(adapter).atualizaNotifyDataSetChanged();
+        verify(adapter).atualizaNotifyDataSetChanged();
 
         assertThat(quantidadeLeiloesDevolvidas, is(3));
     }
